@@ -1,0 +1,118 @@
+[
+	{
+		"Tweet Type": "Identity_Thing",
+		"Thing ID": "MySmartThing01",
+		"Space ID": "MySmartSpace",
+		"Name": "",
+		"Model": "",
+		"Vendor": "",
+		"Owner": "",
+		"Description": "",
+		"OS": ""
+	},
+	{
+		"Tweet Type": "Identity_Language",
+		"Thing ID": "MySmartThing01",
+		"Space ID": "MySmartSpace",
+		"Network Name": "MySpaceNetwork",
+		"Communication Language": "",
+		"IP": "65.116.108.97",
+		"Port": "6668"
+	},
+	{
+		"Tweet Type": "Identity_Entity",
+		"Thing ID": "MySmartThing01",
+		"Space ID": "MySmartSpace",
+		"Name": "light",
+		"ID": "light",
+		"Type": "",
+		"Owner": "",
+		"Vendor": "",
+		"Description": "light"
+	},
+	{
+		"Tweet Type": "Identity_Entity",
+		"Thing ID": "MySmartThing01",
+		"Space ID": "MySmartSpace",
+		"Name": "button",
+		"ID": "button",
+		"Type": "",
+		"Owner": "",
+		"Vendor": "",
+		"Description": ""
+	},
+	{
+		"Tweet Type": "Identity_Entity",
+		"Thing ID": "MySmartThing01",
+		"Space ID": "MySmartSpace",
+		"Name": "lightsensor",
+		"ID": "lightsensor",
+		"Type": "",
+		"Owner": "",
+		"Vendor": "",
+		"Description": "lightsensor"
+	},
+	{
+		"Tweet Type": "Identity_Entity",
+		"Thing ID": "MySmartThing01",
+		"Space ID": "MySmartSpace",
+		"Name": "servo",
+		"ID": "servo",
+		"Type": "",
+		"Owner": "",
+		"Vendor": "",
+		"Description": "servo"
+	},
+	{
+		"Tweet Type": "Service",
+		"Name": "light",
+		"Thing ID": "MySmartThing01",
+		"Entity ID": "light",
+		"Space ID": "MySmartSpace",
+		"Vendor": "",
+		"API": "light:[NULL]:(NULL)",
+		"Type": "Action",
+		"AppCategory": "Lighting",
+		"Description": "light",
+		"Keywords": ""
+	},
+	{
+		"Tweet Type": "Service",
+		"Name": "button",
+		"Thing ID": "MySmartThing01",
+		"Entity ID": "button",
+		"Space ID": "MySmartSpace",
+		"Vendor": "",
+		"API": "button:[NULL]:(clicked,int, NULL)",
+		"Type": "Report",
+		"AppCategory": "Ambiance",
+		"Description": "button",
+		"Keywords": ""
+	},
+	{
+		"Tweet Type": "Service",
+		"Name": "lightsensor",
+		"Thing ID": "MySmartThing01",
+		"Entity ID": "lightsensor",
+		"Space ID": "MySmartSpace",
+		"Vendor": "",
+		"API": "lightsensor:[NULL]:(output,int, NULL)",
+		"Type": "Report",
+		"AppCategory": "Lighting",
+		"Description": "lightsensor",
+		"Keywords": ""
+	},
+	{
+		"Tweet Type": "Service",
+		"Name": "servo",
+		"Thing ID": "MySmartThing01",
+		"Entity ID": "servo",
+		"Space ID": "MySmartSpace",
+		"Vendor": "",
+		"API": "servo:[NULL]:(NULL)",
+		"Type": "Action",
+		"AppCategory": "Ambiance",
+		"Description": "servo",
+		"Keywords": ""
+	}
+]
