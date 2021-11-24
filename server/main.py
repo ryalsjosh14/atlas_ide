@@ -73,8 +73,7 @@ class Identity_Thing:
         self.services = []
 
     def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__,
-                          sort_keys=True, indent=4)
+        return json.dumps(self, default=lambda o: o.__dict__, indent=4)
 
     def add_Identity_Language(self, Identity_Language):
         self.Identity_Language.append(Identity_Language)
@@ -89,9 +88,8 @@ class Identity_Thing:
 @app.route("/getThings")
 def getThings():
     global Identity_Things
-    res = [things.toJSON() for things in Identity_Things]
-
-    return Response(res,  mimetype='application/json')
+    res = [json.loads(things.toJSON()) for things in Identity_Things]
+    return Response(json.dumps(res),  mimetype='application/json')
 
 
 @app.route("/allServices")
@@ -100,9 +98,21 @@ def allServices():
     res = []
     for things in Identity_Things:
         for service in things.services:
-            res.append(service.toJSON())
+            res.append(json.loads(service.toJSON()))
 
-    return Response(res,  mimetype='application/json')
+    return Response(json.dumps(res),  mimetype='application/json')
+
+
+@app.route("/services/<thing_id>")
+def getServices(thing_id):
+    global Identity_Things
+    res = []
+    for things in Identity_Things:
+        for service in things.services:
+            if service.Thing_ID == thing_id:
+                res.append(json.loads(service.toJSON()))
+
+    return Response(json.dumps(res),  mimetype='application/json')
 
 
 @app.route("/")
