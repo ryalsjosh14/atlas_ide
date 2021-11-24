@@ -1,8 +1,12 @@
 import json
 from flask import Flask
+from scannetwork import scanNetworkFunction
+from scannetwork import socketConnections
+import requests
 
 import json
 from flask import Response
+from flask import request
 
 
 app = Flask(__name__)
@@ -83,6 +87,24 @@ class Identity_Thing:
 
     def add_service(self, service):
         self.services.append(service)
+
+
+
+@app.route("/scanNetwork")
+def scanNetwork():
+  return scanNetworkFunction()
+
+@app.route("/socketConnection" ,methods=['GET'])
+def socketConnection():
+        IP_ADDRESS = request.args.get('IP_ADDRESS')
+        TWEET_TYPE = request.args.get('TWEET_TYPE')
+        THING_ID = request.args.get('THING_ID')
+        SPACE_ID = request.args.get('SPACE_ID')
+        SERVICE_NAME = request.args.get('SERVICE_NAME')
+        return  str(socketConnections(IP_ADDRESS,TWEET_TYPE,THING_ID,SPACE_ID,SERVICE_NAME))
+
+
+
 
 
 @app.route("/getThings")
@@ -167,4 +189,4 @@ def ReadTweets():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=8080,threaded=True)
