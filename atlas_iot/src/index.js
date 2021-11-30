@@ -1,8 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import Home from './screens/Home';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router,Switch,Route,Link } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 ReactDOM.render(
