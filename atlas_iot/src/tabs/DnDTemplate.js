@@ -1,6 +1,5 @@
 import React from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import "./Apps.css";
 
 const onDragEnd = (result, columns, setColumns) => {
 	if (!result.destination) return;

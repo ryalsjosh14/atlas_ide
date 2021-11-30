@@ -42,7 +42,7 @@ const OR_block = {
 	},
 };
 
-function App() {
+function Recipe() {
 	const [columns, setColumns] = useState(IF_block);
 	const [flag, setFlag] = useState("if");
 
@@ -92,4 +92,4 @@ function App() {
 	);
 }
 
-export default App;
+export default Recipe;
