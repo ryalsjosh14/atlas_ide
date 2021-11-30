@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Button from "react-bootstrap/Button";
-import "./Apps.css";
 import DnDTemplate from "./DnDTemplate";
 import Dropdown from "react-bootstrap/Dropdown";
 
@@ -79,7 +78,7 @@ function App() {
 				</Dropdown.Menu>
 			</Dropdown>
 			<DnDTemplate columns={columns} setColumns={setColumns} />
-			<div style = {{padding:10}}>
+			<div style={{ padding: 10 }}>
 				<Button variant="danger" onClick={Clear}>
 					Clear
 				</Button>
