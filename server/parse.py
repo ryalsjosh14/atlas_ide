@@ -62,7 +62,7 @@ class Identity_Thing:
 
 
 # read file
-with open('tweet.json', 'r') as myfile:
+with open('tester.txt', 'rb') as myfile:
     data = myfile.read()
 
 # parse file

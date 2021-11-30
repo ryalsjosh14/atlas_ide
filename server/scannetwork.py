@@ -3,6 +3,7 @@ import json
 import struct 
 import sys
 import time
+import pickle
 
 MULTICAST_GROUP = '232.1.1.1'
 server_address = ('',1235)
@@ -19,14 +20,19 @@ def scanNetworkFunction():
             sock.setsockopt(socket.IPPROTO_IP,socket.IP_ADD_MEMBERSHIP,mreq)
             while ((time.time()-start_time) < 30):
                 data,address = sock.recvfrom(1024)
-                ListOfArray.append(data.decode('utf-8'))
+                json_obj = json.loads(data.decode('utf-8'))
+                json_obj['IP_ADDRESS'] = str(address[0])
+                data  = json.dumps(json_obj)
+                ListOfArray.append(data)
                 print(address)
     print(len(ListOfArray))
     ListOfArray = [i for n, i in enumerate(ListOfArray) if i not in ListOfArray[:n]]
     print(len(ListOfArray))
-    results = "["
+    results = '['
     results = results + ','.join([str(elem) for elem in ListOfArray]) 
-    results +=']'
+    results = results + ']'
+    with open('tester.json', 'w') as fp:
+        json.dump(results,fp,ensure_ascii=False,indent=4)
     return results
 
 
