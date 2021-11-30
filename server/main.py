@@ -6,10 +6,15 @@ import requests
 
 import json
 from flask import Response
+<<<<<<< HEAD
 from flask import request
+=======
+from flask_cors import CORS
+>>>>>>> master
 
 
 app = Flask(__name__)
+CORS(app)
 
 Identity_Things = []
 
@@ -189,4 +194,4 @@ def ReadTweets():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=8080,threaded=True)
+    app.run(debug=True, port=5000,threaded=True)
