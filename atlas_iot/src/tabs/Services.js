@@ -2,10 +2,33 @@
 import {useState, useEffect} from 'react'
 import MultiSelect from '../components/MultiSelect';
 
+export default function Services() {
+	const baseUrl = "http://localhost:5000";
 
-export default function Services(){
+	const [services, setServices] = useState([]);
 
-    const baseUrl = "http://localhost:5000";
+	const getServices = (event) => {
+		event.preventDefault();
+		//await fetch(baseUrl);
+		const options = {
+			method: "GET",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		fetch(baseUrl + "/allServices", options)
+			.then((response) => response.text())
+			.then((data) => {
+				console.log(data);
+				setServices(JSON.parse(data));
+				console.log(JSON.parse(data));
+			})
+			.catch((error) => {
+				console.log("there is an error");
+				console.log(error);
+			});
+	};
 
     const [services, setServices] = useState([]);
     const [things, setThings] = useState([]);
