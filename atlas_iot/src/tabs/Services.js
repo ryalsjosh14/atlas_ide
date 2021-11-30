@@ -10,7 +10,7 @@ export default function Services(){
 
 
 
-    const getServices = (event) => {
+    const getService = (event) => {
         event.preventDefault()
         //await fetch(baseUrl);
         const options = {
@@ -39,7 +39,7 @@ export default function Services(){
 
         <div>
             <h1>This is the Services Tab</h1>
-            <button onClick = {getServices}>List Services</button>
+            <button onClick = {getService}>List Services</button>
             {services.map(x => {
                 console.log(x)
                 return <h1>{x.services}</h1>
