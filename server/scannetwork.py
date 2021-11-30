@@ -12,13 +12,13 @@ PORT = 1235
 def scanNetworkFunction():
     start_time = time.time()
     ListOfArray = []
-    while((time.time()-start_time)  < 30):
+    while((time.time()-start_time)  < 60):
             sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
             sock.bind(server_address)
             group = socket.inet_aton(MULTICAST_GROUP)
             mreq = struct.pack('4sL',group,socket.INADDR_ANY)
             sock.setsockopt(socket.IPPROTO_IP,socket.IP_ADD_MEMBERSHIP,mreq)
-            while ((time.time()-start_time) < 30):
+            while ((time.time()-start_time) < 60):
                 data,address = sock.recvfrom(1024)
                 json_obj = json.loads(data.decode('utf-8'))
                 json_obj['IP_ADDRESS'] = str(address[0])

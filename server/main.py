@@ -3,7 +3,7 @@ from flask import Flask
 from scannetwork import scanNetworkFunction
 from scannetwork import socketConnections
 import requests
-
+import sys
 import json
 from flask import Response
 from flask import request
@@ -125,6 +125,8 @@ def getThings():
 @app.route("/allServices")
 def allServices():
     global Identity_Things
+    print(Identity_Things,file=sys.stderr)
+    
     res = []
     for things in Identity_Things:
         for service in things.services:
