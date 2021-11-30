@@ -1,53 +1,44 @@
 //imports
-import {useState} from 'react'
+import { useState } from "react";
 
+export default function Services() {
+	const baseUrl = "http://localhost:5000";
 
-export default function Services(){
+	const [services, setServices] = useState([]);
 
-    const baseUrl = "http://localhost:5000";
+	const getServices = (event) => {
+		event.preventDefault();
+		//await fetch(baseUrl);
+		const options = {
+			method: "GET",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		fetch(baseUrl + "/allServices", options)
+			.then((response) => response.text())
+			.then((data) => {
+				console.log(data);
+				setServices(JSON.parse(data));
+				console.log(JSON.parse(data));
+			})
+			.catch((error) => {
+				console.log("there is an error");
+				console.log(error);
+			});
+	};
 
-    const [services, getServices] = useState([]);
+	return (
+		<div>
+			<h1>This is the Services Tab</h1>
+			<button onClick={getServices}>List Services</button>
+			{services.map((x) => {
+				console.log(x);
+				return <h1>{x.API}</h1>;
+			})}
 
-
-
-    const getServices = (event) => {
-        event.preventDefault()
-        //await fetch(baseUrl);
-        const options = {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-            'Content-Type': 'application/json',
-            }
-        };
-        fetch(baseUrl + "/allServices", options).then( (response) => response.text())
-        .then( (data) => {
-            console.log(data)
-            getServices(JSON.parse(data))
-            console.log(JSON.parse(data))
-        })
-        .catch( (error) => {
-            console.log("there is an error")
-            console.log(error);
-        })
-    }
-
- 
-
-
-    return (
-
-        <div>
-            <h1>This is the Services Tab</h1>
-            <button onClick = {getServices}>List Services</button>
-            {services.map(x => {
-                console.log(x)
-                return <h1>{x.services}</h1>
-            })}
-
-            <p> Filter function here </p>
-
-
-        </div>
-    )
+			<p> Filter function here </p>
+		</div>
+	);
 }
