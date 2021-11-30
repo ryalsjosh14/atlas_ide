@@ -1,14 +1,44 @@
 //imports
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
+import MultiSelect from '../components/MultiSelect';
 
 
 export default function Services(){
 
     const baseUrl = "http://localhost:5000";
 
-    const [services, getServices] = useState([]);
+    const [services, setServices] = useState([]);
+    const [things, setThings] = useState([]);
+    const [selectedThings, setSelectedThings] = useState([]);
 
-
+    const getAllServices = () => {
+        const options = {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+            'Content-Type': 'application/json',
+            }
+        };
+        fetch(baseUrl + "/allServices", options).then( (response) => response.text())
+        .then( (data) => {
+            let currentServices = JSON.parse(data);
+            //setServices(JSON.parse(data))
+            let thingSet = new Set();
+            currentServices.forEach(service => {
+                if (!thingSet.has(service.Thing_ID)){
+                    console.log("in if")
+                    console.log(service.Thing_ID)
+                    thingSet.add(service.Thing_ID);
+                }
+            });
+            const temp = [...thingSet];
+            setThings(temp)
+        })
+        .catch( (error) => {
+            console.log("there is an error getting all services")
+            console.log(error);
+        })
+    }
 
     const getService = (event) => {
         event.preventDefault()
@@ -23,8 +53,18 @@ export default function Services(){
         fetch(baseUrl + "/allServices", options).then( (response) => response.text())
         .then( (data) => {
             console.log(data)
-            getServices(JSON.parse(data))
-            console.log(JSON.parse(data))
+            let currentServices = JSON.parse(data);
+            let selectedServices = [];
+
+            currentServices.forEach(service => {
+                if (selectedThings.includes(service.Thing_ID)){
+                    console.log("in if")
+                    console.log(service.Thing_ID)
+                    selectedServices.push(service);
+                }
+            });
+            setServices(selectedServices)
+
         })
         .catch( (error) => {
             console.log("there is an error")
@@ -32,7 +72,9 @@ export default function Services(){
         })
     }
 
- 
+    useEffect( () => {
+        getAllServices()
+    }, [])
 
 
     return (
@@ -44,9 +86,13 @@ export default function Services(){
                 console.log(x)
                 return <h1>{x.Description}</h1>
             })}
+            
 
-            <p> Filter function here </p>
-
+            <MultiSelect things={things} setSelected={setSelectedThings}></MultiSelect>
+            {selectedThings.map(x => {
+                console.log(x)
+                return <h1>{x}</h1>
+            })}
 
         </div>
     )
