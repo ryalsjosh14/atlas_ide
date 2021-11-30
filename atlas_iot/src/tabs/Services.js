@@ -42,7 +42,7 @@ export default function Services(){
             <button onClick = {getService}>List Services</button>
             {services.map(x => {
                 console.log(x)
-                return <h1>{x.services}</h1>
+                return <h1>{x.Description}</h1>
             })}
 
             <p> Filter function here </p>
