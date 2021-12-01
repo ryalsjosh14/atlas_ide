@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
+import axios from "axios";
 
 const itemsFromBackend = [
 	{ Name: "App1", Status: "success", Action: "Activate" },
@@ -22,27 +23,34 @@ function Apps() {
 	const handleActivateClick = (Action, index) => {
 		const tempApps = [...Apps];
 		console.log(Array.isArray(tempApps));
-		if (Action == "Activate") {
+		if (Action === "Activate") {
 			tempApps[index].Status = "warning";
 			tempApps[index].Action = "Stop";
 			console.log(Array.isArray(tempApps));
 
 			setApps(tempApps);
-		} else {
-			tempApps[index].Status = "success";
-			tempApps[index].Action = "Activate";
-			setApps(tempApps);
+			const param = {
+				AppName: tempApps[index].Name,
+			};
+			console.log(param);
+
+			axios
+				.get("http://localhost:5000/executeApp", param)
+				.then((response) => console.log(response));
 		}
-		console.log(typeof Apps);
 	};
-	console.log(Apps);
 	const handleDeleteClick = (index) => {
 		const tempApps = [...Apps];
-		tempApps.splice(index, 1);
+		const name = tempApps.splice(index, 1).Name;
 		setApps(tempApps);
 
-		console.log("write acios request");
-		// TODO: Write axios request
+		const param = {
+			AppName: [name],
+		};
+		console.log(param);
+		axios
+			.post("http://localhost:5000/deleteApp", param)
+			.then((response) => console.log(response));
 	};
 	const handleSaveClick = (index) => {
 		console.log("write acios request");
