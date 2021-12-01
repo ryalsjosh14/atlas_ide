@@ -7,11 +7,13 @@ from savingApplication import orToFile
 from savingApplication import deleteFromFile
 from savingApplication import getApplications
 from executeApps import execute_applications
+from flask import send_file
 import requests
 import sys
 from flask import Response
 from flask import request
 from flask_cors import CORS
+import os
 
 
 app = Flask(__name__)
@@ -218,12 +220,70 @@ def sortArray(arr):
     return result
 
 
+#this will create the application file and return the response
 @app.route("/save_file/<app_name>")
 def saveFileFunction(app_name):
+    List = []
     print(app_name)
+    #check if application file exists
+    with open ('result.json','r') as f:
+        data = json.load(f)
+    print(data)
+    application_string = {}
+    for k in data:
+       if k['NAME'] == app_name:
+           print(k)
+           application_string = k
+
+    if(len(application_string) == 0):
+        return "Failure"
+
+    List.append(application_string)
+    tempdirectory = "./applicationOutput/"+app_name+".json"
+    with open(tempdirectory, 'w+') as file:
+         json.dump(List, file)
+
+    try:
+	    return send_file('./applicationOutput/'+app_name+'.json', attachment_filename=app_name+'.json',as_attachment=True)
+    except Exception as e:
+	    return str(e)
 
 
+#handlue uploading of files
+@app.route("/upload_file", methods=['GET','POST'])
+def upload_file():
+    regular_data = []
+    uploaded_file = request.files['file']
+    print(uploaded_file.filename)
 
+    if(uploaded_file.filename)!= '':
+        uploaded_file.save("./userInputFile/"+uploaded_file.filename)
+
+
+    #opening necessary files
+    print('here')
+    with open ('userInputFile/'+uploaded_file.filename,'r') as fp:
+        user_input = json.load(fp)
+    print('not here')
+    with open ('result.json','r') as fp:
+        regular_data = json.load(fp)
+    print('maybe here')
+
+    print(type(user_input))
+    print(type(regular_data))
+    #check for duplicates
+    if(os.stat('result.json').st_size!=0):
+        for k in regular_data:
+            for j in user_input:
+                print(k)
+                print(j)
+                if k['NAME'] == j['NAME']:
+                    return "Failure, Application Exists"
+
+    regular_data.append(user_input[0])
+    with open('result.json','w') as fp:
+        json.dump(regular_data,fp)
+    return "File Added Succesfully"
 
 @app.route("/")
 def ReadTweets():
