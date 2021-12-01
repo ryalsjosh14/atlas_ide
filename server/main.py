@@ -2,6 +2,7 @@ import json
 from flask import Flask
 from scannetwork import scanNetworkFunction
 from scannetwork import socketConnections
+from savingApplication import ifthenwriteToFile
 import requests
 import sys
 from flask import Response
@@ -140,7 +141,10 @@ def if_then():
     AppName = response['AppName']
     if_services = response['if']
     then_services = response['then']
-
+    ifthenwriteToFile(if_services,then_services,AppName)
+    # print(AppName)
+    # print(if_services)
+    # print(then_services)
     return "ok"
 
 
@@ -190,18 +194,11 @@ def ReadTweets():
     # with open('tweet.json', 'r', encoding='utf-8') as myfile:
     #     data = myfile.read()
     global Tweets
-<<<<<<< HEAD
-    # parse file
-    # print(data)
-    tweets = json.loads(Tweets)
-    print(tweets)
-=======
     Tweets = scanNetworkFunction()
     # parse file
     # print(data)
     tweets = json.loads(Tweets)
     tweets = sortArray(tweets)
->>>>>>> master
 
     global Identity_Things
 

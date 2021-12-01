@@ -1,1 +1,1 @@
-[{"IF": ["heeloo", "hello", "yes"], "THEN": ["y", "a", "b"], "NAME": "yess"}]
+[{"IF": ["button", "light"], "THEN": ["lightsensor"], "NAME": "yessir"}]
