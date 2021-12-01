@@ -126,8 +126,8 @@ def getThings():
 @app.route("/allServices")
 def allServices():
     global Identity_Things
-    print(Identity_Things,file=sys.stderr)
-    
+    print(Identity_Things, file=sys.stderr)
+
     res = []
     for things in Identity_Things:
         for service in things.services:
@@ -136,24 +136,27 @@ def allServices():
 
     return Response(json.dumps(res),  mimetype='application/json')
 
-#delete Applications locally
-@app.route("/deleteApp",methods=['POST'])
+# delete Applications locally
+
+
+@app.route("/deleteApp", methods=['POST'])
 def deleteApp():
     response = request.json
     AppName = response['AppName']
     deleteFromFile(AppName)
     return "succesfully deleted"
 
-#execute Application Names
-@app.route("/executeApp",methods=['GET'])
+# execute Application Names
+
+
+@app.route("/executeApp", methods=['GET'])
 def executeApp():
     global Tweets
     global Identity_Thing
     response = request.json
     print(response)
-    #AppName = response['AppName']
-    return (execute_applications(Tweets,'yessir',Identity_Things))
-
+    AppName = response['AppName']
+    return (execute_applications(Tweets, AppName, Identity_Things))
 
 
 @app.route("/if_then", methods=['POST'])
@@ -163,7 +166,7 @@ def if_then():
     AppName = response['AppName']
     if_services = response['if']
     then_services = response['then']
-    ifthenwriteToFile(if_services,then_services,AppName)
+    ifthenwriteToFile(if_services, then_services, AppName)
     # print(AppName)
     # print(if_services)
     # print(then_services)
@@ -176,7 +179,7 @@ def OR():
     response = request.json
     AppName = response['AppName']
     or_services = response['or']
-    orToFile(or_services,AppName)
+    orToFile(or_services, AppName)
     return "ok"
 
 
