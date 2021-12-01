@@ -2,10 +2,12 @@ import json
 from flask import Flask
 from scannetwork import scanNetworkFunction
 from scannetwork import socketConnections
+from savingApplication import ifthenwriteToFile
+from savingApplication import orToFile
+from savingApplication import deleteFromFile
+from executeApps import execute_applications
 import requests
-import json
 import sys
-import json
 from flask import Response
 from flask import request
 from flask_cors import CORS
@@ -124,6 +126,8 @@ def getThings():
 @app.route("/allServices")
 def allServices():
     global Identity_Things
+    print(Identity_Things,file=sys.stderr)
+    
     res = []
     for things in Identity_Things:
         for service in things.services:
@@ -131,6 +135,25 @@ def allServices():
             res.append(json.loads(service.toJSON()))
 
     return Response(json.dumps(res),  mimetype='application/json')
+
+#delete Applications locally
+@app.route("/deleteApp",methods=['POST'])
+def deleteApp():
+    response = request.json
+    AppName = response['AppName']
+    deleteFromFile(AppName)
+    return "succesfully deleted"
+
+#execute Application Names
+@app.route("/executeApp",methods=['GET'])
+def executeApp():
+    global Tweets
+    global Identity_Thing
+    response = request.json
+    print(response)
+    #AppName = response['AppName']
+    return (execute_applications(Tweets,'nope',Identity_Things))
+
 
 
 @app.route("/if_then", methods=['POST'])
@@ -140,7 +163,10 @@ def if_then():
     AppName = response['AppName']
     if_services = response['if']
     then_services = response['then']
-
+    ifthenwriteToFile(if_services,then_services,AppName)
+    # print(AppName)
+    # print(if_services)
+    # print(then_services)
     return "ok"
 
 
@@ -150,7 +176,7 @@ def OR():
     response = request.json
     AppName = response['AppName']
     or_services = response['or']
-
+    orToFile(or_services,AppName)
     return "ok"
 
 
