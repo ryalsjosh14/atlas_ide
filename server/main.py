@@ -3,6 +3,8 @@ from flask import Flask
 from scannetwork import scanNetworkFunction
 from scannetwork import socketConnections
 from savingApplication import ifthenwriteToFile
+from savingApplication import orToFile
+from savingApplication import deleteFromFile
 import requests
 import sys
 from flask import Response
@@ -133,6 +135,17 @@ def allServices():
 
     return Response(json.dumps(res),  mimetype='application/json')
 
+#delete Applications locally
+@app.route("/deleteApp",methods=['POST'])
+def deleteApp():
+    response = request.json
+    AppName = response['AppName']
+    deleteFromFile(AppName)
+    return "succesfully deleted"
+
+
+
+
 
 @app.route("/if_then", methods=['POST'])
 def if_then():
@@ -154,7 +167,7 @@ def OR():
     response = request.json
     AppName = response['AppName']
     or_services = response['or']
-
+    orToFile(or_services,AppName)
     return "ok"
 
 

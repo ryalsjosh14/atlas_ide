@@ -32,25 +32,33 @@ def ifthenwriteToFile(if_items,then_items,name):
 def orToFile(or_items,name):
     data = []
     #check if file is empty
-    if((os.stat('tweetertester.json').st_size!=0)): 
-        with open("tweet.json", "r") as f:  
+    if((os.stat('result.json').st_size!=0)): 
+        with open("result.json", "r") as f:  
             data = json.load(f)
-        print(data)
+        for k in data:
+            print(type(k))
+            if name in k['NAME']:
+                return -1
     # data['yeet'] = "hello"
     # with open("tweetertester.json", "w") as f:  
     #     f.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
     temp = dict()
-    temp['OR'] = or_items
+    temp['OR'] = simplifyDataToAppNameOnly(or_items)
     temp ['NAME'] = name
 
     data.append(temp)
     print(data)
     with open("result.json", 'w') as file:
-         json.dump( data, file )
+         json.dump(data, file )
 
 
 def deleteFromFile(app_name):
-    print('hello')
+    with open("result.json", "r") as f:  
+            data = json.load(f)
+    output_dictionary = [x for x in data if x['NAME']!=str(app_name)]
+    with open("result.json", 'w') as file:
+        json.dump(output_dictionary, file )
+
 
 #this will only return the application datas name
 def simplifyDataToAppNameOnly(array_of_items):
