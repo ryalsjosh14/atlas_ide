@@ -1,6 +1,11 @@
 //imports
 import { useState, useEffect } from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/ListGroup";
+import ListGroupItem from "react-bootstrap/ListGroupItem";
+import Button from "react-bootstrap/Button";
+
 export default function Things() {
 	const baseUrl = "http://localhost:5000";
 
@@ -52,17 +57,42 @@ export default function Things() {
 				console.log(error);
 			});
 	};
-
+	const cards = things.map((t) => {
+		return (
+			<Card style={{ width: "20rem" }}>
+				<Card.Body>
+					<Card.Title>{t.Thing_ID}</Card.Title>
+				</Card.Body>
+				<ListGroup className="list-group-flush">
+					<ListGroupItem>Space_ID: {t.Space_ID}</ListGroupItem>
+					<ListGroupItem>Name: {t.Name}</ListGroupItem>
+					<ListGroupItem>Vendor: {t.Vendor}</ListGroupItem>
+					<ListGroupItem>Owner: {t.Owner}</ListGroupItem>
+					<ListGroupItem>OS: {t.OS}</ListGroupItem>
+					<ListGroupItem>Model: {t.Model}</ListGroupItem>
+					<ListGroupItem>Description: {t.Description}</ListGroupItem>
+				</ListGroup>
+			</Card>
+		);
+	});
 	return (
 		<div>
 			<ProgressBar animated now={progressBarValue} />
-			<h1>This is the Things Tab</h1>
-			<button onClick={getThings}>get things</button>
-			{things.map((x) => {
-				console.log(x);
-				return <h1> {x.Thing_ID}</h1>;
-			})}
-			<p> Here is where more info about each thing will go</p>
+			<div style={{ padding: 10 }}>
+				<Button onClick={getThings} style={{ padding: 10 }}>
+					Get Things
+				</Button>
+			</div>
+
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "center",
+				}}
+			>
+				{cards}
+			</div>
 		</div>
 	);
 }
