@@ -3,6 +3,7 @@ from flask import Flask
 from scannetwork import scanNetworkFunction
 from scannetwork import socketConnections
 import requests
+import json
 
 import json
 from flask import Response
@@ -134,8 +135,10 @@ def allServices():
 @app.route("/if_then", methods=['POST'])
 def if_then():
     global Identity_Things
-    if_services = request.args.get("if")
-    then_services = request.args.get("then")
+    response = request.json
+    AppName = response['AppName']
+    if_services = response['if']
+    then_services = response['then']
 
     return "ok"
 
@@ -143,7 +146,9 @@ def if_then():
 @app.route("/or",  methods=['POST'])
 def OR():
     global Identity_Things
-    or_services = request.args.get("or")
+    response = request.json
+    AppName = response['AppName']
+    or_services = response['or']
 
     return "ok"
 
