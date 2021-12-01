@@ -10,11 +10,11 @@ from datetime import datetime
 
 def execute_applications(Tweets,AppName,Identity_Things):
     #read the result file since this has all the application names
-    
+    log =[]
     Output = {}
     now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-    result = "["+str(now)+"]"+": Executing Application "+ str(AppName)+"\n"
-    print(result)
+    log.append( "["+str(now)+"]"+": Executing Application "+ str(AppName))
+    print(log)
 
 
 
@@ -26,9 +26,12 @@ def execute_applications(Tweets,AppName,Identity_Things):
          application = k
     #now that we have the file check if empty to return 
     if(len(application) == 0):
-        result+= "[ "+str(now)+" ]"+": Failed Executing "+ str(AppName)+"\n"
-        print(result)
-        return "-1"
+        now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        log.append(" ["+ str(now)+" ]"+": Failed Executing "+ str(AppName))
+        print(log)
+        Output['Result'] = "-1"
+        Output['log'] = log
+        return Output
     
     result = -1
 
@@ -39,8 +42,15 @@ def execute_applications(Tweets,AppName,Identity_Things):
         for service in things.services:
             print(service.Name)
             res.append(json.loads(service.toJSON()))
-
+    
     print(res)
+    if(len(res)==0):
+       now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+       log.append("[ "+ str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))+" ]"+": Failed Executing "+ str(AppName))
+       Output['Result'] = "-1"
+       Output['log'] = log
+       return Output
+
     print("application")
     print(type(application))
     print(application)
@@ -55,11 +65,13 @@ def execute_applications(Tweets,AppName,Identity_Things):
             #now we have to get the details pertaining to the service which will be found in res
             for k in res:
                 if k['Name'] == i:
+                    log.append("["+ str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))+"]"+": Executing Service "+ str(k['Name']))
                     result = json.loads(socketConnections(k['IP_ADDRESS'],'Service Call',k['Thing_ID'],k['Space_ID'],k['Name']))
                     print('result')
                     print(result)
                     print(type(result))
                     print(type(result['Service Result']))
+                    log.append("["+ str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))+"]"+": Service "+ str(k['Name'])+ " Executed "+ "with result of "+ str(result['Service Result']))
                     if((result['Service Result'] != "No Output") and (result['Service Result'] != "-1") and (result['Service Result'] != "0")):
                         if_statement = 1
         
@@ -69,15 +81,20 @@ def execute_applications(Tweets,AppName,Identity_Things):
             #now we have to get the details pertaining to the service which will be found in res
                 for k in res:
                     if k['Name'] == i:
+                        log.append("["+ str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))+"]"+": Executing Service "+ str(k['Name']))
                         result = json.loads(socketConnections(k['IP_ADDRESS'],'Service Call',k['Thing_ID'],k['Space_ID'],k['Name']))
                         print('result')
                         print(result)
                         print(type(result))
                         print(type(result['Service Result']))
+                        log.append("["+ str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))+"]"+": Service "+ str(k['Name'])+ " Executed "+ "with result of "+ str(result['Service Result']))
                         if((result['Service Result'] != "No Output") and (result['Service Result'] != "-1") and (result['Service Result'] != "0")):
-                            return result['Service Result']
-                        
-        return "0"
+                            Output['Result'] = result['Service Result']
+                            Output['log'] = log   
+                            return Output
+        Output['Result'] = "0"
+        Output['log'] = log           
+        return Output
     #this is when the application is an or statement only
     else:
         #this gets each individual application that would contain the important portions
@@ -85,16 +102,21 @@ def execute_applications(Tweets,AppName,Identity_Things):
             #now we have to get the details pertaining to the service which will be found in res
             for k in res:
                 if k['Name'] == i:
+                    log.append("["+ str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))+"]"+": Executing Service "+ str(k['Name']))
                     result = json.loads(socketConnections(k['IP_ADDRESS'],'Service Call',k['Thing_ID'],k['Space_ID'],k['Name']))
                     print('result')
                     print(result)
                     print(type(result))
                     print(type(result['Service Result']))
+                    log.append("["+ str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))+"]"+": Service "+ str(k['Name'])+ " Executed "+ "with result of "+ str(result['Service Result']))
                     if((result['Service Result'] != "No Output") and (result['Service Result'] != "-1") and (result['Service Result'] != "0")):
-                        return result['Service Result']
+                        Output['Result'] = result['Service Result']
+                        Output['log'] = log
+                        return Output
                     
-        
-    return "0"
+    Output['Result'] = "0"
+    Output['log'] = log        
+    return Output
 
 #this is teh foundation of establishing a connection with the raspberry pi
 def socketConnections(IP_ADDRESS,TWEET_TYPE,THING_ID,SPACE_ID,SERVICE_NAME):
