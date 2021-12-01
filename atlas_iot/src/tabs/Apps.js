@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 
 import Form from "react-bootstrap/Form";
@@ -17,8 +17,38 @@ const itemsFromBackend = [
 ];
 
 function Apps() {
-	const [Apps, setApps] = useState(itemsFromBackend);
+	const [Apps, setApps] = useState();
 	const [show, setShow] = useState(false);
+	const baseUrl = "http://localhost:5000";
+
+	useEffect(() => {
+		const options = {
+			method: "GET",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		fetch(baseUrl + "/getApps", options)
+			.then((response) => response.json())
+			.then((data) => {
+				let temp = [];
+				let apps = data.Applications;
+				for (const x of apps) {
+					temp.push({
+						Name: x,
+						Status: "success",
+						Action: "Activate",
+					});
+				}
+				console.log(temp);
+				setApps(temp);
+			})
+			.catch((error) => {
+				console.log("there is an error");
+				console.log(error);
+			});
+	}, []);
 
 	const handleActivateClick = (Action, index) => {
 		const tempApps = [...Apps];
@@ -35,17 +65,18 @@ function Apps() {
 			console.log(param);
 
 			axios
-				.get("http://localhost:5000/executeApp", param)
+				.post("http://localhost:5000/executeApp", param)
 				.then((response) => console.log(response));
 		}
 	};
 	const handleDeleteClick = (index) => {
 		const tempApps = [...Apps];
-		const name = tempApps.splice(index, 1).Name;
+		const name = tempApps.splice(index, 1)[0].Name;
+		console.log(name);
 		setApps(tempApps);
 
 		const param = {
-			AppName: [name],
+			AppName: name,
 		};
 		console.log(param);
 		axios
@@ -57,54 +88,56 @@ function Apps() {
 		// TODO: Write axios request
 	};
 
-	const x = Apps.map((el, index) => {
-		return (
-			<div key={el.name}>
-				<Card>
-					<Card.Body style={{ display: "flex", flexDirection: "row" }}>
-						<Card.Title style={{ flex: 1, margin: 10 }}>{el.Name}</Card.Title>
+	const x =
+		Apps &&
+		Apps.map((el, index) => {
+			return (
+				<div key={el.name}>
+					<Card>
+						<Card.Body style={{ display: "flex", flexDirection: "row" }}>
+							<Card.Title style={{ flex: 1, margin: 10 }}>{el.Name}</Card.Title>
 
-						<Button
-							variant={el.Status}
-							style={{ flex: 1, margin: 10 }}
-							onClick={() => handleActivateClick(el.Action, index)}
-						>
-							{el.Action}
-						</Button>
+							<Button
+								variant={el.Status}
+								style={{ flex: 1, margin: 10 }}
+								onClick={() => handleActivateClick(el.Action, index)}
+							>
+								{el.Action}
+							</Button>
 
-						<Button
-							variant="danger"
-							style={{ flex: 1, margin: 10 }}
-							onClick={() => handleDeleteClick(el)}
-						>
-							Delete
-						</Button>
-						<Button
-							variant="primary"
-							style={{ flex: 1, margin: 10 }}
-							onClick={() => handleSaveClick(el)}
-						>
-							Save
-						</Button>
-						<Button
-							variant="secondary"
-							style={{ flex: 1, margin: 10 }}
-							onClick={() => handleLogClick(el)}
-						>
-							Log
-						</Button>
-						<Button
-							variant="dark"
-							style={{ flex: 1, margin: 10 }}
-							onClick={() => handleSaveClick(el)}
-						>
-							Output
-						</Button>
-					</Card.Body>
-				</Card>
-			</div>
-		);
-	});
+							<Button
+								variant="danger"
+								style={{ flex: 1, margin: 10 }}
+								onClick={() => handleDeleteClick(index)}
+							>
+								Delete
+							</Button>
+							<Button
+								variant="primary"
+								style={{ flex: 1, margin: 10 }}
+								onClick={() => handleSaveClick(el)}
+							>
+								Save
+							</Button>
+							<Button
+								variant="secondary"
+								style={{ flex: 1, margin: 10 }}
+								onClick={() => handleLogClick(el)}
+							>
+								Log
+							</Button>
+							<Button
+								variant="dark"
+								style={{ flex: 1, margin: 10 }}
+								onClick={() => handleSaveClick(el)}
+							>
+								Output
+							</Button>
+						</Card.Body>
+					</Card>
+				</div>
+			);
+		});
 	const handleClose = () => setShow(false);
 	const handleLogClick = () => setShow(true);
 	return (

@@ -128,7 +128,8 @@ def getThings():
 def getApps():
     response = getApplications()
     print(response)
-    return json.dumps(response,indent=4)
+    return json.dumps(response, indent=4)
+
 
 @app.route("/allServices")
 def allServices():
@@ -156,12 +157,11 @@ def deleteApp():
 # execute Application Names
 
 
-@app.route("/executeApp", methods=['GET'])
+@app.route("/executeApp", methods=['POST'])
 def executeApp():
     global Tweets
     global Identity_Thing
     response = request.json
-    print(response)
     AppName = response['AppName']
     return (execute_applications(Tweets, AppName, Identity_Things))
 
@@ -174,9 +174,7 @@ def if_then():
     if_services = response['if']
     then_services = response['then']
     ifthenwriteToFile(if_services, then_services, AppName)
-    # print(AppName)
-    # print(if_services)
-    # print(then_services)
+
     return "ok"
 
 
