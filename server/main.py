@@ -217,6 +217,13 @@ def sortArray(arr):
     return result
 
 
+@app.route("/save_file/<app_name>")
+def saveFileFunction(app_name):
+    print(app_name)
+
+
+
+
 @app.route("/")
 def ReadTweets():
     # read file
