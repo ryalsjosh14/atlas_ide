@@ -1,8 +1,5 @@
-import { BrowserRouter as Router,Routes,Route,Link } from 'react-router-dom';
-import Home  from './screens/Home';
-import React, { useState } from 'react';
-import Menu from './Menu'
-import logo from "./logo.svg";
+import React from "react";
+import Menu from "./Menu";
 import "./App.css";
 
 function App() {
