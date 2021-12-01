@@ -1,14 +1,39 @@
 //imports
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import ProgressBar from "react-bootstrap/ProgressBar";
 export default function Things() {
 	const baseUrl = "http://localhost:5000";
 
 	const [things, setThings] = useState([]);
+	const [progressBarValue, setProgressBarValue] = useState(0);
 
+	useEffect(() => {
+		const options = {
+			method: "GET",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		fetch(baseUrl + "/", options)
+			.then((response) => console.log(response))
+			.catch((error) => {
+				console.log("there is an error");
+				console.log(error);
+			});
+		const intervalId = setInterval(() => {
+			console.log(progressBarValue);
+			setProgressBarValue((prev) => {
+				if (prev > 100) {
+					clearInterval(intervalId);
+				}
+
+				return prev + 1.5;
+			});
+		}, 1000);
+	}, []);
 	const getThings = (event) => {
 		event.preventDefault();
-		//await fetch(baseUrl);
 		const options = {
 			method: "GET",
 			mode: "cors",
@@ -31,6 +56,7 @@ export default function Things() {
 
 	return (
 		<div>
+			<ProgressBar animated now={progressBarValue} />
 			<h1>This is the Things Tab</h1>
 			<button onClick={getThings}>get things</button>
 			{things.map((x) => {
