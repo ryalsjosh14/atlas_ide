@@ -60,8 +60,26 @@ def deleteFromFile(app_name):
         json.dump(output_dictionary, file )
 
 
+def getApplications():
+    result = {}
+    ApplicationList = []
+    with open('result.json','r') as f:
+        data = json.load(f)
+    for k in data:
+        ApplicationList.append(k['NAME'])
+    result['Applications'] = ApplicationList
+    return result  
+
+
+
 #this will only return the application datas name
 def simplifyDataToAppNameOnly(array_of_items):
+
+
+
+
+
+    
     temp = []
     for x in array_of_items:
         print(x)
