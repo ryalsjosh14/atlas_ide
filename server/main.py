@@ -152,7 +152,7 @@ def executeApp():
     response = request.json
     print(response)
     #AppName = response['AppName']
-    return (execute_applications(Tweets,'nope',Identity_Things))
+    return (execute_applications(Tweets,'yessir',Identity_Things))
 
 
 

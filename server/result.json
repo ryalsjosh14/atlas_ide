@@ -1,1 +1,1 @@
-[{"OR": ["light", "lightsensor", "yes"], "NAME": "nope"}, {"IF": ["light", "button"], "THEN": ["servo"], "NAME": "yessir"}]
+[{"OR": ["light", "lightsensor", "yes"], "NAME": "nope"}, {"IF": ["light", "button","yes"], "THEN": ["servo","yes"], "NAME": "yessir"}]
