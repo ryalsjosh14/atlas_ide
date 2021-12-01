@@ -1,55 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Button from "react-bootstrap/Button";
 import DnDTemplate from "./DnDTemplate";
 import Dropdown from "react-bootstrap/Dropdown";
+import Form from "react-bootstrap/Form";
+import axios from "axios";
 
-const itemsFromBackend = [
-	{ id: uuidv4(), content: "Service 1" },
-	{ id: uuidv4(), content: "Service 2" },
-	{ id: uuidv4(), content: "Service 3" },
-	{ id: uuidv4(), content: "Service 4" },
-	{ id: uuidv4(), content: "Service 5" },
-	{ id: uuidv4(), content: "Service 6" },
-	{ id: uuidv4(), content: "Service 7" },
-	{ id: uuidv4(), content: "Service 8" },
-	{ id: uuidv4(), content: "Service 9" },
-	{ id: uuidv4(), content: "Service 10" },
-];
-
-const IF_block = {
-	["Service"]: {
-		name: "Services",
-		items: itemsFromBackend,
-	},
-	["IF"]: {
-		name: "IF",
-		items: [],
-	},
-	["THEN"]: {
-		name: "THEN",
-		items: [],
-	},
-};
-const OR_block = {
-	["Service"]: {
-		name: "Services",
-		items: itemsFromBackend,
-	},
-	["OR"]: {
-		name: "OR",
-		items: [],
-	},
-};
+let itemsFromBackend = [];
 
 function Recipe() {
-	const [columns, setColumns] = useState(IF_block);
-	const [flag, setFlag] = useState("if");
+	let IF_block = {
+		["Service"]: {
+			name: "Services",
+			items: itemsFromBackend,
+		},
+		["IF"]: {
+			name: "IF",
+			items: [],
+		},
+		["THEN"]: {
+			name: "THEN",
+			items: [],
+		},
+	};
+	let OR_block = {
+		["Service"]: {
+			name: "Services",
+			items: itemsFromBackend,
+		},
+		["OR"]: {
+			name: "OR",
+			items: [],
+		},
+	};
+	const baseUrl = "http://localhost:5000";
 
+	useEffect(() => {
+		const options = {
+			method: "GET",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		fetch(baseUrl + "/allServices", options)
+			.then((response) => response.json())
+			.then((data) => {
+				let temp = [];
+				console.log(data);
+				for (const x of data) {
+					temp.push({
+						id: uuidv4(),
+						Name: x.Name,
+						IP_ADDRESS: x.IP_ADDRESS,
+						Space_ID: x.Space_ID,
+						Thing_ID: x.Thing_ID,
+					});
+				}
+				IF_block["Service"].items = temp;
+				OR_block["Service"].items = temp;
+				itemsFromBackend = temp;
+			})
+			.catch((error) => {
+				console.log("there is an error");
+				console.log(error);
+			});
+	}, []);
+
+	const [columns, setColumns] = useState();
+	const [flag, setFlag] = useState("");
+	const [AppName, setAppName] = useState("");
 	const Clear = () => {
 		if (flag == "if") {
 			setColumns(IF_block);
-		} else {
+		} else if (flag == "or") {
 			setColumns(OR_block);
 		}
 	};
@@ -58,8 +82,55 @@ function Recipe() {
 		setColumns(block);
 	};
 	const Finalize = () => {
+		if (flag == "if") {
+			const param = {
+				AppName: AppName,
+				if: columns["IF"].items,
+				then: columns["THEN"].items,
+			};
+			axios
+				.post("http://localhost:5000/if_then", param)
+				.then((response) => console.log(response));
+		} else if (flag == "or") {
+			const params = {
+				AppName: AppName,
+				or: columns["OR"].items,
+			};
+			axios
+				.post("http://localhost:5000/or", params)
+				.then((response) => console.log(response));
+		}
+
 		console.log("Finalize");
 	};
+	const handleChange = (evt) => {
+		setAppName(evt.target.value);
+	};
+	let DND =
+		flag != "" ? (
+			<div>
+				<Form>
+					<Form.Group className="mb-3">
+						<Form.Label>App Name</Form.Label>
+						<Form.Control
+							onChange={handleChange}
+							type="name"
+							placeholder="Enter App Name"
+						/>
+					</Form.Group>
+				</Form>
+
+				<DnDTemplate columns={columns} setColumns={setColumns} />
+				<div style={{ padding: 10 }}>
+					<Button variant="danger" onClick={Clear} style={{ margin: 10 }}>
+						Clear
+					</Button>
+					<Button variant="success" onClick={Finalize}>
+						Finalize
+					</Button>
+				</div>
+			</div>
+		) : null;
 
 	return (
 		<div>
@@ -77,17 +148,7 @@ function Recipe() {
 					</Dropdown.Item>
 				</Dropdown.Menu>
 			</Dropdown>
-			<DnDTemplate columns={columns} setColumns={setColumns} />
-			<div style={{ padding: 10 }}>
-				<Button variant="danger" onClick={Clear}>
-					Clear
-				</Button>
-			</div>
-			<div>
-				<Button variant="success" onClick={Finalize}>
-					Finalize
-				</Button>
-			</div>
+			{DND}
 		</div>
 	);
 }

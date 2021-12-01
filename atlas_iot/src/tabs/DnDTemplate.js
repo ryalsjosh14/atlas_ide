@@ -107,7 +107,7 @@ function DnDTemplate(props) {
 																				...provided.draggableProps.style,
 																			}}
 																		>
-																			{item.content}
+																			{item.Name}
 																		</div>
 																	);
 																}}

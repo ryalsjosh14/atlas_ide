@@ -44,4 +44,5 @@ def orToFile(or_items,name):
          json.dump( data, file )
 
 
-
+def deleteFromFile(app_name):
+    print('hello')
