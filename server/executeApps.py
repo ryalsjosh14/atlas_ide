@@ -35,8 +35,39 @@ def execute_applications(Tweets,AppName,Identity_Things):
     print(application)
     #now we have to continously execute the application to ensure we recieve a value 
     if 'IF' in application:
+
+        if_statement = 0
         print('if')
         # ifelseexecution(Tweets,application)
+         #this gets each individual application that would contain the important portions
+        for i in application['IF']:
+            #now we have to get the details pertaining to the service which will be found in res
+            for k in res:
+                if k['Name'] == i:
+                    result = json.loads(socketConnections(k['IP_ADDRESS'],'Service Call',k['Thing_ID'],k['Space_ID'],k['Name']))
+                    print('result')
+                    print(result)
+                    print(type(result))
+                    print(type(result['Service Result']))
+                    if((result['Service Result'] != "No Output") and (result['Service Result'] != "-1") and (result['Service Result'] != "0")):
+                        if_statement = 1
+        
+        #if it evaluates to true
+        if(if_statement):
+            for i in application['THEN']:
+            #now we have to get the details pertaining to the service which will be found in res
+                for k in res:
+                    if k['Name'] == i:
+                        result = json.loads(socketConnections(k['IP_ADDRESS'],'Service Call',k['Thing_ID'],k['Space_ID'],k['Name']))
+                        print('result')
+                        print(result)
+                        print(type(result))
+                        print(type(result['Service Result']))
+                        if((result['Service Result'] != "No Output") and (result['Service Result'] != "-1") and (result['Service Result'] != "0")):
+                            return result['Service Result']
+                        
+        return "0"
+    #this is when the application is an or statement only
     else:
         #this gets each individual application that would contain the important portions
         for i in application['OR']:
