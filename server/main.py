@@ -127,6 +127,7 @@ def allServices():
     res = []
     for things in Identity_Things:
         for service in things.services:
+            print(service.Name)
             res.append(json.loads(service.toJSON()))
 
     return Response(json.dumps(res),  mimetype='application/json')
@@ -165,16 +166,42 @@ def getServices(thing_id):
     return Response(json.dumps(res),  mimetype='application/json')
 
 
+def sortArray(arr):
+    result = []
+
+    temp = ["Identity_Thing", "Identity_Language",
+            "Identity_Entity", "Service"]
+    idx = 0
+    while len(arr) != len(result):
+        for temp1 in arr:
+            if temp1['Tweet Type'] == temp[idx]:
+                result.append(temp1)
+
+        idx += 1
+
+    print(result)
+    print(arr)
+    return result
+
+
 @app.route("/")
 def ReadTweets():
     # read file
     # with open('tweet.json', 'r', encoding='utf-8') as myfile:
     #     data = myfile.read()
     global Tweets
+<<<<<<< HEAD
     # parse file
     # print(data)
     tweets = json.loads(Tweets)
     print(tweets)
+=======
+    Tweets = scanNetworkFunction()
+    # parse file
+    # print(data)
+    tweets = json.loads(Tweets)
+    tweets = sortArray(tweets)
+>>>>>>> master
 
     global Identity_Things
 
@@ -210,12 +237,13 @@ def ReadTweets():
 
             for things in Identity_Things:
                 if things.Thing_ID == t['Thing ID']:
+                    print(ser.Name)
                     things.add_service(ser)
         elif typ == 'Relationship':
             print("not completed yet")
         else:
             print("read something I dont understand")
-    return "ok"
+    return Tweets
 
 
 if __name__ == "__main__":
