@@ -5,6 +5,7 @@ from scannetwork import socketConnections
 from savingApplication import ifthenwriteToFile
 from savingApplication import orToFile
 from savingApplication import deleteFromFile
+from savingApplication import getApplications
 from executeApps import execute_applications
 import requests
 import sys
@@ -122,6 +123,12 @@ def getThings():
     res = [json.loads(things.toJSON()) for things in Identity_Things]
     return Response(json.dumps(res),  mimetype='application/json')
 
+
+@app.route("/getApps")
+def getApps():
+    response = getApplications()
+    print(response)
+    return json.dumps(response,indent=4)
 
 @app.route("/allServices")
 def allServices():

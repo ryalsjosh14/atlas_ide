@@ -4,11 +4,20 @@ import struct
 import sys
 import time
 import pickle
+from datetime import datetime
 
 
 
 def execute_applications(Tweets,AppName,Identity_Things):
     #read the result file since this has all the application names
+    
+    Output = {}
+    now = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    result = "["+str(now)+"]"+": Executing Application "+ str(AppName)+"\n"
+    print(result)
+
+
+
     with open('result.json','r') as f:
         apps  = json.load(f)
     #now parse the applications in the apps file(result.json)
@@ -17,6 +26,8 @@ def execute_applications(Tweets,AppName,Identity_Things):
          application = k
     #now that we have the file check if empty to return 
     if(len(application) == 0):
+        result+= "[ "+str(now)+" ]"+": Failed Executing "+ str(AppName)+"\n"
+        print(result)
         return "-1"
     
     result = -1
