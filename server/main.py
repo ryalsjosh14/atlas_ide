@@ -5,6 +5,7 @@ from scannetwork import socketConnections
 from savingApplication import ifthenwriteToFile
 from savingApplication import orToFile
 from savingApplication import deleteFromFile
+from executeApps import execute_applications
 import requests
 import sys
 from flask import Response
@@ -143,7 +144,15 @@ def deleteApp():
     deleteFromFile(AppName)
     return "succesfully deleted"
 
-
+#execute Application Names
+@app.route("/executeApp",methods=['GET'])
+def executeApp():
+    global Tweets
+    global Identity_Thing
+    response = request.json
+    print(response)
+    #AppName = response['AppName']
+    return (execute_applications(Tweets,'nope',Identity_Things))
 
 
 
