@@ -71,9 +71,9 @@ function Recipe() {
 	const [flag, setFlag] = useState("");
 	const [AppName, setAppName] = useState("");
 	const Clear = () => {
-		if (flag == "if") {
+		if (flag === "if") {
 			setColumns(IF_block);
-		} else if (flag == "or") {
+		} else if (flag === "or") {
 			setColumns(OR_block);
 		}
 	};
@@ -82,7 +82,7 @@ function Recipe() {
 		setColumns(block);
 	};
 	const Finalize = () => {
-		if (flag == "if") {
+		if (flag === "if") {
 			const param = {
 				AppName: AppName,
 				if: columns["IF"].items,
@@ -91,7 +91,7 @@ function Recipe() {
 			axios
 				.post("http://localhost:5000/if_then", param)
 				.then((response) => console.log(response));
-		} else if (flag == "or") {
+		} else if (flag === "or") {
 			const params = {
 				AppName: AppName,
 				or: columns["OR"].items,
@@ -107,7 +107,7 @@ function Recipe() {
 		setAppName(evt.target.value);
 	};
 	let DND =
-		flag != "" ? (
+		flag !== "" ? (
 			<div>
 				<Form>
 					<Form.Group className="mb-3">
