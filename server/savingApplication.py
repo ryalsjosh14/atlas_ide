@@ -23,7 +23,8 @@ def ifthenwriteToFile(if_items,then_items,name):
     with open("result.json", 'w') as file:
          json.dump( data, file )
 
-def orToFile(if_items,then_items,name):
+#this will write the data to the or file
+def orToFile(or_items,name):
     data = []
     #check if file is empty
     if((os.stat('tweetertester.json').st_size!=0)): 
@@ -34,10 +35,13 @@ def orToFile(if_items,then_items,name):
     # with open("tweetertester.json", "w") as f:  
     #     f.write(simplejson.dumps(simplejson.loads(data), indent=4, sort_keys=True))
     temp = dict()
-    temp['OR'] = if_items
+    temp['OR'] = or_items
     temp ['NAME'] = name
 
     data.append(temp)
     print(data)
     with open("result.json", 'w') as file:
          json.dump( data, file )
+
+
+
