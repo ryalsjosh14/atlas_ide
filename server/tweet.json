@@ -8,7 +8,8 @@
 		"Vendor": "",
 		"Owner": "",
 		"Description": "",
-		"OS": ""
+		"OS": "",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Identity_Language",
@@ -17,7 +18,8 @@
 		"Network Name": "MySpaceNetwork",
 		"Communication Language": "",
 		"IP": "65.116.108.97",
-		"Port": "6668"
+		"Port": "6668",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Identity_Entity",
@@ -28,7 +30,8 @@
 		"Type": "",
 		"Owner": "",
 		"Vendor": "",
-		"Description": "light"
+		"Description": "light",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Identity_Entity",
@@ -39,7 +42,8 @@
 		"Type": "",
 		"Owner": "",
 		"Vendor": "",
-		"Description": ""
+		"Description": "",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Identity_Entity",
@@ -50,7 +54,8 @@
 		"Type": "",
 		"Owner": "",
 		"Vendor": "",
-		"Description": "lightsensor"
+		"Description": "lightsensor",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Identity_Entity",
@@ -61,7 +66,8 @@
 		"Type": "",
 		"Owner": "",
 		"Vendor": "",
-		"Description": "servo"
+		"Description": "servo",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Service",
@@ -74,7 +80,8 @@
 		"Type": "Action",
 		"AppCategory": "Lighting",
 		"Description": "light",
-		"Keywords": ""
+		"Keywords": "",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Service",
@@ -87,7 +94,8 @@
 		"Type": "Report",
 		"AppCategory": "Ambiance",
 		"Description": "button",
-		"Keywords": ""
+		"Keywords": "",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Service",
@@ -100,7 +108,8 @@
 		"Type": "Report",
 		"AppCategory": "Lighting",
 		"Description": "lightsensor",
-		"Keywords": ""
+		"Keywords": "",
+		"IP_ADDRESS": "169.254.38.28"
 	},
 	{
 		"Tweet Type": "Service",
@@ -113,6 +122,7 @@
 		"Type": "Action",
 		"AppCategory": "Ambiance",
 		"Description": "servo",
-		"Keywords": ""
+		"Keywords": "",
+		"IP_ADDRESS": "169.254.38.28"
 	}
 ]
