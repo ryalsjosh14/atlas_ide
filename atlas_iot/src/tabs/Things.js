@@ -22,7 +22,6 @@ export default function Things() {
 				console.log(error);
 			});
 		const intervalId = setInterval(() => {
-			console.log(progressBarValue);
 			setProgressBarValue((prev) => {
 				if (prev > 100) {
 					clearInterval(intervalId);

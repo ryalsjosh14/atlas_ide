@@ -19,6 +19,7 @@ import axios from "axios";
 
 function Apps() {
 	const [Apps, setApps] = useState();
+	const [selectedFile, setSelectedFile] = useState();
 	const baseUrl = "http://localhost:5000";
 
 	useEffect(() => {
@@ -49,6 +50,40 @@ function Apps() {
 				console.log(error);
 			});
 	}, []);
+	const handleUploadClick = (index) => {
+		const formData = new FormData();
+		formData.append("file", selectedFile);
+
+		axios
+			.post("http://localhost:5000/upload_file", formData)
+			.then((response) => console.log(response));
+		const options = {
+			method: "GET",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		};
+		fetch(baseUrl + "/getApps", options)
+			.then((response) => response.json())
+			.then((data) => {
+				let temp = [];
+				let apps = data.Applications;
+				for (const x of apps) {
+					temp.push({
+						Name: x,
+						Status: "success",
+						Action: "Activate",
+					});
+				}
+				console.log(temp);
+				setApps(temp);
+			})
+			.catch((error) => {
+				console.log("there is an error");
+				console.log(error);
+			});
+	};
 
 	const handleActivateClick = (Action, index) => {
 		const tempApps = [...Apps];
@@ -84,9 +119,29 @@ function Apps() {
 			.post("http://localhost:5000/deleteApp", param)
 			.then((response) => console.log(response));
 	};
-	const handleSaveClick = (index) => {
-		console.log("write acios request");
-		// TODO: Write axios request
+	const handleSaveClick = (name) => {
+		axios({
+			url: "http://localhost:5000/save_file/" + name, //your url
+			method: "GET",
+			responseType: "blob", // important
+		}).then((response) => {
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement("a");
+			link.href = url;
+			link.setAttribute("download", name + ".json"); //or any other extension
+			document.body.appendChild(link);
+			link.click();
+		});
+		// axios.get().then((data) => {
+		// 	console.log("this is data: ", data.data);
+		// 	const link = document.createElement("a");
+		// 	const url = URL.createObjectURL(data.data); //<---- this should be data.data
+		// 	link.download = true;
+		// 	link.href = url;
+		// 	document.body.appendChild(link);
+		// 	link.click();
+		// 	document.body.removeChild(link);
+		// });
 	};
 	const handleClose = (index) => {
 		const tempApps = [...Apps];
@@ -107,6 +162,10 @@ function Apps() {
 
 			setApps(tempApps);
 		}
+	};
+
+	const fileHandler = (event) => {
+		setSelectedFile(event.target.files[0]);
 	};
 
 	const x =
@@ -159,7 +218,7 @@ function Apps() {
 							<Button
 								variant="primary"
 								style={{ flex: 1, margin: 10 }}
-								onClick={() => handleSaveClick(index)}
+								onClick={() => handleSaveClick(el.Name)}
 							>
 								Save
 							</Button>
@@ -178,9 +237,12 @@ function Apps() {
 
 	return (
 		<div>
-			<Form.Group controlId="formFile" className="mb-3">
+			<Form.Group controlId="formFile" className="mb-3" onChange={fileHandler}>
 				<Form.Label>Upload File</Form.Label>
 				<Form.Control type="file" />
+				<Button variant="primary" type="submit" onClick={handleUploadClick}>
+					Upload
+				</Button>
 			</Form.Group>
 			{x}
 		</div>
