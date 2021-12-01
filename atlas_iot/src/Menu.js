@@ -9,7 +9,7 @@ import Recipe from "./tabs/Recipe";
 import Services from "./tabs/Services";
 import Things from "./tabs/Things";
 import Relationships from "./tabs/Relationships";
-import Apps from "./tabs/App";
+import Apps from "./tabs/Apps";
 
 function TabPanel(props) {
 	const { children, value, index, ...other } = props;
