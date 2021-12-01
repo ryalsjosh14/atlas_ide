@@ -165,12 +165,12 @@ def getServices(thing_id):
 @app.route("/")
 def ReadTweets():
     # read file
-    with open('tweet.json', 'r', encoding='utf-8') as myfile:
-        data = myfile.read()
-    # global Tweets
+    # with open('tweet.json', 'r', encoding='utf-8') as myfile:
+    #     data = myfile.read()
+    global Tweets
     # parse file
     # print(data)
-    tweets = json.loads(data)
+    tweets = json.loads(Tweets)
     print(tweets)
 
     global Identity_Things
