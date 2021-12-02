@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import Modal from "react-bootstrap/Modal";
-import Spinner from "react-bootstrap/Spinner";
 import axios from "axios";
 
 // const itemsFromBackend = [
@@ -172,7 +171,7 @@ function Apps() {
 		Apps &&
 		Apps.map((el, index) => {
 			return (
-				<div key={el.name}>
+				<div key={el.Name}>
 					{el.Log && el.Result && (
 						<Modal show={el.Show} onHide={() => handleClose(index)}>
 							<Modal.Header closeButton>

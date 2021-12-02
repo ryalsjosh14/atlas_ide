@@ -59,20 +59,28 @@ export default function Things() {
 	};
 	const cards = things.map((t) => {
 		return (
-			<Card style={{ width: "20rem" }}>
-				<Card.Body>
-					<Card.Title>{t.Thing_ID}</Card.Title>
-				</Card.Body>
-				<ListGroup className="list-group-flush">
-					<ListGroupItem>Space_ID: {t.Space_ID}</ListGroupItem>
-					<ListGroupItem>Name: {t.Name}</ListGroupItem>
-					<ListGroupItem>Vendor: {t.Vendor}</ListGroupItem>
-					<ListGroupItem>Owner: {t.Owner}</ListGroupItem>
-					<ListGroupItem>OS: {t.OS}</ListGroupItem>
-					<ListGroupItem>Model: {t.Model}</ListGroupItem>
-					<ListGroupItem>Description: {t.Description}</ListGroupItem>
-				</ListGroup>
-			</Card>
+			<div style={{ padding: 10 }}>
+				<Card
+					style={{
+						width: "20rem",
+						padding: 20,
+						borderRadius: 50,
+					}}
+				>
+					<Card.Body>
+						<Card.Title>{t.Thing_ID}</Card.Title>
+					</Card.Body>
+					<ListGroup className="list-group-flush">
+						<ListGroupItem>Space_ID: {t.Space_ID}</ListGroupItem>
+						<ListGroupItem>Name: {t.Name}</ListGroupItem>
+						<ListGroupItem>Vendor: {t.Vendor}</ListGroupItem>
+						<ListGroupItem>Owner: {t.Owner}</ListGroupItem>
+						<ListGroupItem>OS: {t.OS}</ListGroupItem>
+						<ListGroupItem>Model: {t.Model}</ListGroupItem>
+						<ListGroupItem>Description: {t.Description}</ListGroupItem>
+					</ListGroup>
+				</Card>
+			</div>
 		);
 	});
 	return (
