@@ -10,7 +10,6 @@ import Box from "@mui/material/Box";
 import Recipe from "./tabs/Recipe";
 import Services from "./tabs/Services";
 import Things from "./tabs/Things";
-import Relationships from "./tabs/Relationships";
 import Apps from "./tabs/Apps";
 import ProgressBar from "react-bootstrap/ProgressBar";
 
@@ -93,9 +92,8 @@ export default function Menu() {
 					>
 						<Tab label="Things" {...a11yProps(0)} />
 						<Tab label="Services" {...a11yProps(1)} />
-						<Tab label="Relationships" {...a11yProps(2)} />
-						<Tab label="Recipe" {...a11yProps(3)} />
-						<Tab label="Apps" {...a11yProps(4)} />
+						<Tab label="Recipe" {...a11yProps(2)} />
+						<Tab label="Apps" {...a11yProps(3)} />
 					</Tabs>
 				</Box>
 				<TabPanel value={value} index={0}>
@@ -104,13 +102,11 @@ export default function Menu() {
 				<TabPanel value={value} index={1}>
 					<Services></Services>
 				</TabPanel>
+
 				<TabPanel value={value} index={2}>
-					<Relationships></Relationships>
-				</TabPanel>
-				<TabPanel value={value} index={3}>
 					<Recipe></Recipe>
 				</TabPanel>
-				<TabPanel value={value} index={4}>
+				<TabPanel value={value} index={3}>
 					<Apps></Apps>
 				</TabPanel>
 			</Box>
