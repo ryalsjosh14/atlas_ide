@@ -5,6 +5,7 @@ import DnDTemplate from "./DnDTemplate";
 import Dropdown from "react-bootstrap/Dropdown";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { Alert } from "@mui/material";
 
 let itemsFromBackend = [];
 
@@ -101,6 +102,8 @@ function Recipe() {
 				.then((response) => console.log(response));
 		}
 
+		setFlag("");
+		alert("App Submitted!");
 		console.log("Finalize");
 	};
 	const handleChange = (evt) => {
