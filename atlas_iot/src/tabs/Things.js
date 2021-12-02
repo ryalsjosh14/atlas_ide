@@ -1,6 +1,5 @@
 //imports
-import { useState, useEffect } from "react";
-import ProgressBar from "react-bootstrap/ProgressBar";
+import { useState } from "react";
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
@@ -10,32 +9,7 @@ export default function Things() {
 	const baseUrl = "http://localhost:5000";
 
 	const [things, setThings] = useState([]);
-	const [progressBarValue, setProgressBarValue] = useState(0);
 
-	useEffect(() => {
-		const options = {
-			method: "GET",
-			mode: "cors",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		};
-		fetch(baseUrl + "/", options)
-			.then((response) => console.log(response))
-			.catch((error) => {
-				console.log("there is an error");
-				console.log(error);
-			});
-		const intervalId = setInterval(() => {
-			setProgressBarValue((prev) => {
-				if (prev > 100) {
-					clearInterval(intervalId);
-				}
-
-				return prev + 1.5;
-			});
-		}, 1000);
-	}, []);
 	const getThings = (event) => {
 		event.preventDefault();
 		const options = {
@@ -85,7 +59,6 @@ export default function Things() {
 	});
 	return (
 		<div>
-			<ProgressBar animated now={progressBarValue} />
 			<div style={{ padding: 10 }}>
 				<Button onClick={getThings} style={{ padding: 10 }}>
 					Get Things
